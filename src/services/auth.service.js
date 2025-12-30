@@ -7,8 +7,7 @@ const {generateAccessToken,generateRefreshToken}=require('../utils/jwt');
 const registerUser=async(email, password)=>{
   const exists=await User.findOne({email});
   if(exists) throw new Error("User already exists");
-  const match=await comparePassword(password,user.password);
-  if(!match) throw new Error("Invalid credentials")
+  
   const hashed=await hashPassword(password);
   return User.create({email,password:hashed});
 };
@@ -18,7 +17,8 @@ const registerUser=async(email, password)=>{
 const loginUser=async(email,password)=>{
   const user=await User.findOne({email});
   if(!user) throw new Error("Invalid credentials");
-
+const match=await comparePassword(password,user.password);
+  if(!match) throw new Error("Invalid credentials")
   const accessToken=generateAccessToken({id:user._id});
   const refreshToken =generateRefreshToken({id:user._id});
 await RefreshToken.create({

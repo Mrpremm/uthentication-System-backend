@@ -1,7 +1,7 @@
 const authService=require('../services/auth.service');
 exports.register=async(req,res)=>{
   try{
-    await authService.registerUser(req.body.email,req,body.password);
+    await authService.registerUser(req.body.email,req.body.password);
     res.status(201).json({message:"User registered"});
   }catch(err){
     res.status(400).json({message:err.message});
